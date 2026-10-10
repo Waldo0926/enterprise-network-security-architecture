@@ -4,12 +4,11 @@
 [![Tech](https://img.shields.io/badge/Tech-Python-7c3aed?style=for-the-badge)](#)
 [![License](https://img.shields.io/badge/License-MIT-16a34a?style=for-the-badge)](LICENSE)
 
-
 **English** · [中文](README.zh-CN.md)
 
 A fictional enterprise network-security design expressed as **architecture-as-code**: CIDR-safe VLAN planning, a default-deny firewall policy, segmentation, DMZ design, remote access, enterprise Wi-Fi, an explicit OT trust boundary, automated validation, and threat-model documentation.
 
-> This is a **post-course portfolio reimplementation**, not an original assessment submission. The organisation, topology, addresses and policy in this repository are fictional and do not describe Monash University or any real production network.
+> This is a **post-course reimplementation**, not an original assessment submission. The organisation, topology, addresses and policy in this repository are fictional and do not describe Monash University or any real production network.
 
 ## Why this refactor exists
 
