@@ -4,12 +4,11 @@
 [![技术](https://img.shields.io/badge/%E6%8A%80%E6%9C%AF-Python-7c3aed?style=for-the-badge)](#)
 [![许可证](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF%E8%AF%81-MIT-16a34a?style=for-the-badge)](LICENSE)
 
-
-[English](README.md)
+[English](README.md) · **中文**
 
 这是一个完全虚构的企业网络安全设计，并将关键设计转化为 **architecture-as-code**：规范的 CIDR/VLAN 规划、默认拒绝防火墙策略、网络分段、DMZ、远程访问、企业 Wi-Fi、明确的 OT 信任边界，以及自动化验证和威胁模型文档。
 
-> 本项目是课程结束后的作品集重构，**不是原始作业提交**。组织、拓扑、地址和策略均为虚构，不描述 Monash University 或任何真实生产网络。
+> 本项目是课程结束后重新实现的版本，**不是原始作业提交**。组织、拓扑、地址和策略均为虚构，不描述 Monash University 或任何真实生产网络。
 
 ## 为什么这样重构
 
@@ -25,6 +24,24 @@
 - 防火墙是否默认拒绝；
 - 策略是否引用合法 zone；
 - Guest 与 OT 隔离规则是否明确存在。
+
+## 架构
+
+```mermaid
+flowchart TB
+  Internet((Internet)) --> FW[边界防火墙 / NAT]
+  FW --> DMZ[DMZ\nWeb · Mail · DNS · VPN]
+  FW --> Core[核心三层交换 / 内部防火墙]
+  Core --> LAN[办公网 LAN]
+  Core --> WIFI[企业 Wi-Fi\nWPA3-Enterprise / 802.1X]
+  Core --> GUEST[访客网络\n只能上互联网]
+  Core --> IOT[打印机 / IoT]
+  Core --> MGMT[管理网络\nJump host + MFA]
+  Core --> INFRA[Identity / RADIUS / DNS / 日志]
+  OT[隔离的 OT 网络] -.-|双向禁止| Core
+```
+
+详细设计见 [docs/architecture.md](docs/architecture.md)、[docs/threat-model.md](docs/threat-model.md) 和 [docs/security-controls.md](docs/security-controls.md)（英文）。
 
 ## 地址规划
 
@@ -48,6 +65,26 @@
 ```bash
 PYTHONPATH=. python scripts/validate_architecture.py
 python -m unittest discover -s tests -v
+```
+
+## 项目结构
+
+```text
+enterprise-network-security-architecture/
+├── config/
+│   ├── network_plan.json
+│   └── firewall_policy.json
+├── src/
+│   └── validator.py
+├── scripts/
+│   └── validate_architecture.py
+├── docs/
+│   ├── architecture.md
+│   ├── threat-model.md
+│   └── security-controls.md
+├── tests/
+│   └── test_validator.py
+└── .github/workflows/tests.yml
 ```
 
 ## 展示的能力
